@@ -1,0 +1,21 @@
+import axios from "axios";
+
+const API = axios.create({
+  baseURL: "https://jsonplaceholder.typicode.com",
+  timeout: 5000,
+});
+
+export const fetchUser = async (id) => {
+  if (!id || id < 1 || id > 10) {
+    throw new Error("User ID must be between 1 and 10");
+  }
+
+  try {
+    const response = await API.get(`/users/${id}`);
+    return response.data;
+  } catch (error) {
+    throw new Error(
+      error.response?.data?.message || "Failed to fetch user"
+    );
+  }
+};
